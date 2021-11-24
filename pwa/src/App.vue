@@ -2,8 +2,12 @@
   <main>
     <header>
       <h1 id="logo">
-        <img src="/favicon.png" />
-        <span>TL;DRecipe</span>
+        <a href="/">
+          <img src="/favicon.png" />
+        </a>
+        <a href="/">
+          <span>TL;DRecipe</span>
+        </a>
       </h1>
     </header>
     <div class="home" v-if="!recipe && !loading">
@@ -37,20 +41,26 @@
       </svg>
     </div>
     <div class="recipe" v-else>
-      <h2>{{ recipe.name }}</h2>
+      <div class="header">
+        <h2>{{ recipe.name }}</h2>
+      </div>
       <img :src="image" />
-      <h3>Ingredients</h3>
-      <ul>
-        <li :key="i" v-for="(ingredient, i) in recipe.recipeIngredient">
-          {{ ingredient }}
-        </li>
-      </ul>
-      <h3>Instructions</h3>
-      <ol>
-        <li :key="i" v-for="(step, i) in instructions">
-          {{ step }}
-        </li>
-      </ol>
+      <div class="meta">
+        <h3>Ingredients</h3>
+        <ul>
+          <li :key="i" v-for="(ingredient, i) in recipe.recipeIngredient">
+            {{ ingredient }}
+          </li>
+        </ul>
+      </div>
+      <div class="body">
+        <h3>Instructions</h3>
+        <ol>
+          <li :key="i" v-for="(step, i) in instructions">
+            {{ step }}
+          </li>
+        </ol>
+      </div>
     </div>
   </main>
 </template>
@@ -58,6 +68,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Recipe } from "schema-dts";
+import { CACHE } from "./cache";
 
 export default defineComponent({
   name: "App",
@@ -66,22 +77,19 @@ export default defineComponent({
       loading: false,
       recipeUrl: null,
       recipe: null as Recipe,
-      // recipe: EXAMPLE_RECIPE,
     };
   },
   computed: {
     image(): string | null {
       if (!this.recipe) return null;
-      if (Array.isArray(this.recipe.image)) {
-        return this.recipe.image[0];
+      let image = this.recipe.image;
+      if (Array.isArray(image)) {
+        image = image[0];
       }
-      if (
-        typeof this.recipe.image === "object" &&
-        this.recipe.image["@type"] === "ImageObject"
-      ) {
-        return this.recipe.image.url;
+      if (typeof image === "object") {
+        image = image.url;
       }
-      return this.recipe.image;
+      return image;
     },
     instructions(): string[] | null {
       if (!this.recipe) {
@@ -96,11 +104,13 @@ export default defineComponent({
     },
   },
   watch: {
-    "$route.query.url": {
-      handler: async function (newUrl) {
-        this.recipeUrl = newUrl;
-        if (newUrl) {
+    "$route.query": {
+      handler: async function ({ url, text }) {
+        this.recipeUrl = url || text;
+        if (this.recipeUrl) {
           await this.loadRecipe();
+        } else {
+          this.recipe = null;
         }
       },
     },
@@ -109,6 +119,11 @@ export default defineComponent({
     async loadRecipe(): Promise<void> {
       this.loading = true;
       try {
+        const cachedRecipe = await CACHE.getRecipe(this.recipeUrl);
+        if (cachedRecipe) {
+          this.recipe = cachedRecipe;
+          return;
+        }
         const { recipe } = await fetch(
           `https://us-west1-tldrecipe.cloudfunctions.net/fetchRecipe?url=${encodeURIComponent(
             this.recipeUrl
@@ -117,6 +132,7 @@ export default defineComponent({
         ).then((r) => r.json());
         if (recipe) {
           this.recipe = recipe as Recipe;
+          await CACHE.cacheRecipe(this.recipeUrl, recipe);
         }
       } finally {
         this.loading = false;
@@ -132,11 +148,11 @@ export default defineComponent({
 <style lang="postcss">
 html,
 body {
-  @apply subpixel-antialiased bg-banana text-black;
+  @apply subpixel-antialiased bg-gradient-to-br from-banana to-yellow-200 text-black min-h-full w-full;
 }
 
 header {
-  @apply backdrop-filter backdrop-blur-md bg-opacity-75 bg-banana fixed top-0 w-full;
+  @apply backdrop-filter backdrop-blur-md bg-opacity-25 bg-banana fixed top-0 w-full;
 
   #logo {
     @apply m-2 text-black flex items-center font-display text-2xl;
@@ -147,12 +163,12 @@ header {
   }
 }
 
-main {
-  @apply font-body pt-12 w-screen h-screen;
+main > div {
+  @apply font-body pt-12;
 }
 
 .home {
-  @apply flex flex-col items-center justify-center h-full w-screen;
+  @apply flex flex-col items-center justify-center h-screen;
 
   form {
     @apply flex flex-nowrap items-center border-b-2 border-current mt-2 p-1 w-1/2 xs:w-11/12;
@@ -168,7 +184,7 @@ main {
 }
 
 .loading {
-  @apply flex flex-col items-center justify-center w-full h-full;
+  @apply flex flex-col items-center justify-center h-screen;
 
   .loader {
     @apply animate-spin h-12 w-12 text-white text-burnt-banana;
@@ -184,7 +200,7 @@ main {
 }
 
 .recipe {
-  @apply w-full p-4 max-w-screen-sm m-auto;
+  @apply w-full p-4 pt-12 max-w-screen-sm m-auto min-h-full;
 
   h2 {
     @apply font-display text-xl;
@@ -204,6 +220,12 @@ main {
 
   ol {
     @apply list-decimal m-4;
+  }
+
+  img,
+  .meta,
+  .body {
+    @apply mt-12;
   }
 }
 </style>

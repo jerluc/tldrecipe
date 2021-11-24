@@ -16,9 +16,11 @@ module.exports = {
     //   // ...other Workbox options...
     // },
     manifestOptions: {
+      background_color: "#fbbf24",
       share_target: {
         action: "/",
         method: "GET",
+        enctype: "application/x-www-form-urlencoded",
         params: {
           title: "title",
           text: "text",
