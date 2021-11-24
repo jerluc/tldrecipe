@@ -89,5 +89,11 @@ export default defineComponent({
   ol {
     @apply list-decimal m-4;
   }
+
+  footer {
+    a {
+      @apply bg-black text-white rounded-full pa-4;
+    }
+  }
 }
 </style>

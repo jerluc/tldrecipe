@@ -3,10 +3,10 @@
     <header>
       <h1 id="logo">
         <a href="/">
-          <img src="/favicon.png" />
+          <icon />
         </a>
         <a href="/">
-          <span>TL;DRecipe</span>
+          <span>tl;drecipe</span>
         </a>
       </h1>
     </header>
@@ -61,6 +61,12 @@
           </li>
         </ol>
       </div>
+      <footer>
+        <a :href="recipeUrl" target="_blank" rel="noopener noreferrer">
+          <span>Read the whole recipe</span>
+          <span class="material-icons">launch</span>
+        </a>
+      </footer>
     </div>
   </main>
 </template>
@@ -69,9 +75,15 @@
 import { defineComponent } from "vue";
 import { Recipe } from "schema-dts";
 import { CACHE } from "./cache";
+import Icon from "./assets/icon.svg";
+
+console.log(Icon);
 
 export default defineComponent({
   name: "App",
+  components: {
+    Icon,
+  },
   data() {
     return {
       loading: false,
@@ -148,14 +160,14 @@ export default defineComponent({
 <style lang="postcss">
 html,
 body {
-  @apply subpixel-antialiased bg-gradient-to-br from-banana to-yellow-200 text-black min-h-full w-full;
+  @apply bg-gradient-to-br from-banana to-yellow-200 text-black min-h-full w-full;
 }
 
 header {
-  @apply backdrop-filter backdrop-blur-md bg-opacity-25 bg-banana fixed top-0 w-full;
+  @apply backdrop-filter backdrop-blur-md bg-opacity-50 bg-black text-banana fixed top-0 w-full;
 
   #logo {
-    @apply m-2 text-black flex items-center font-display text-2xl;
+    @apply m-2 flex items-center justify-center font-display font-extrabold italic text-2xl;
 
     img {
       @apply h-8 mr-2;
@@ -200,10 +212,10 @@ main > div {
 }
 
 .recipe {
-  @apply w-full p-4 pt-12 max-w-screen-sm m-auto min-h-full;
+  @apply w-full p-4 pt-12 max-w-screen-sm mx-auto mt-8 min-h-full;
 
   h2 {
-    @apply font-display text-xl;
+    @apply font-display font-bold text-xl;
   }
 
   h3 {
@@ -224,8 +236,21 @@ main > div {
 
   img,
   .meta,
-  .body {
+  .body,
+  footer {
     @apply mt-12;
+  }
+
+  footer {
+    @apply flex items-center justify-center;
+
+    a {
+      @apply bg-black text-white rounded-full p-1 text-center w-full;
+
+      span {
+        @apply inline-block text-lg leading-loose align-bottom mx-1;
+      }
+    }
   }
 }
 </style>

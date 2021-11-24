@@ -11,8 +11,8 @@ module.exports = {
         "burnt-banana": "#40403a",
       },
       fontFamily: {
-        display: ["Fredoka One"],
-        body: ["Work Sans", "sans-serif"],
+        display: ["Barlow Semi Condensed", "sans-serif"],
+        body: ["Barlow Semi Condensed", "Work Sans", "sans-serif"],
       },
     },
     screens: {
