@@ -4,8 +4,8 @@ module.exports = {
   },
   pwa: {
     name: "TL;DRecipe",
-    themeColor: "#fffd87",
-    msTileColor: "#fffd87",
+    themeColor: "#fbbf24",
+    msTileColor: "#fbbf24",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
     // configure the workbox plugin
@@ -17,7 +17,7 @@ module.exports = {
     // },
     manifestOptions: {
       share_target: {
-        action: "/recipe",
+        action: "/",
         method: "GET",
         params: {
           title: "title",
