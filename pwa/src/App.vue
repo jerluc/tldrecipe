@@ -11,13 +11,16 @@
       </h1>
     </header>
     <div class="home" v-if="!recipe && !loading">
+      <h2>Read recipes, not life stories!</h2>
       <form @submit.prevent="goToRecipe">
         <input
           type="text"
-          placeholder="Recipe web page URL"
+          placeholder="Paste recipe link here"
           v-model="recipeUrl"
         />
-        <button class="material-icons">arrow_forward</button>
+        <button class="material-icons" :class="recipeUrl && 'animated'">
+          arrow_forward
+        </button>
       </form>
     </div>
     <div class="loading" v-else-if="loading">
@@ -41,24 +44,35 @@
       </svg>
     </div>
     <div class="recipe" v-else>
+      <Head>
+        <title>tl;drecipe: {{ recipe.name }}</title>
+      </Head>
       <div class="header">
-        <h2>{{ recipe.name }}</h2>
+        <h2>
+          {{ recipe.name }}
+        </h2>
       </div>
-      <img :src="image" />
+      <div class="image">
+        <img :src="image" :alt="recipe.name" />
+      </div>
       <div class="meta">
         <h3>Ingredients</h3>
         <ul>
-          <li :key="i" v-for="(ingredient, i) in recipe.recipeIngredient">
-            {{ ingredient }}
-          </li>
+          <li
+            :key="i"
+            v-for="(ingredient, i) in recipe.recipeIngredient"
+            v-html="stringOrPath(ingredient, 'ingredient')"
+          />
         </ul>
       </div>
       <div class="body">
         <h3>Instructions</h3>
         <ol>
-          <li :key="i" v-for="(step, i) in instructions">
-            {{ step }}
-          </li>
+          <li
+            :key="i"
+            v-for="(step, i) in instructions"
+            v-html="stringOrPath(step, 'text')"
+          />
         </ol>
       </div>
       <footer>
@@ -74,14 +88,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Recipe } from "schema-dts";
-import { CACHE } from "./cache";
-import Icon from "./assets/icon.svg";
+import { Head } from "@vueuse/head";
 
-console.log(Icon);
+import { CACHE } from "./cache";
+import Icon from "@/assets/icon.svg?inline";
 
 export default defineComponent({
   name: "App",
   components: {
+    Head,
     Icon,
   },
   data() {
@@ -128,6 +143,23 @@ export default defineComponent({
     },
   },
   methods: {
+    stringOrPath(
+      maybeString: string | unknown,
+      jsonPath: string
+    ): string | null {
+      if (typeof maybeString === "string") {
+        return maybeString;
+      }
+      const pathParts = jsonPath.split(".");
+      let obj = maybeString as unknown;
+      for (let k of pathParts) {
+        obj = obj[k];
+        if (!obj) {
+          return null;
+        }
+      }
+      return obj as string;
+    },
     async loadRecipe(): Promise<void> {
       this.loading = true;
       try {
@@ -167,10 +199,13 @@ header {
   @apply backdrop-filter backdrop-blur-md bg-opacity-50 bg-black text-banana fixed top-0 w-full;
 
   #logo {
-    @apply m-2 flex items-center justify-center font-display font-extrabold italic text-2xl;
+    @apply m-2 flex items-center justify-center font-display font-extrabold italic text-2xl hover:text-white;
 
-    img {
+    svg {
       @apply h-8 mr-2;
+      * {
+        @apply fill-current;
+      }
     }
   }
 }
@@ -182,6 +217,10 @@ main > div {
 .home {
   @apply flex flex-col items-center justify-center h-screen;
 
+  h2 {
+    @apply font-display font-bold italic text-2xl mb-4;
+  }
+
   form {
     @apply flex flex-nowrap items-center border-b-2 border-current mt-2 p-1 w-1/2 xs:w-11/12;
 
@@ -190,7 +229,10 @@ main > div {
     }
 
     button {
-      @apply bg-black text-banana rounded-full text-sm px-1 animate-bounce motion-reduce:animate-none;
+      @apply bg-black text-banana opacity-50 rounded-full text-lg px-2;
+      &.animated {
+        @apply animate-bounce motion-reduce:animate-none opacity-100;
+      }
     }
   }
 }
@@ -222,8 +264,10 @@ main > div {
     @apply font-bold text-lg;
   }
 
-  img {
-    @apply object-cover h-64 w-full;
+  .image {
+    img {
+      @apply object-cover object-center h-96 w-full;
+    }
   }
 
   ul {
@@ -232,23 +276,25 @@ main > div {
 
   ol {
     @apply list-decimal m-4;
+
+    li {
+      @apply mb-4;
+    }
   }
 
-  img,
+  .image,
   .meta,
   .body,
   footer {
-    @apply mt-12;
+    @apply mt-12 text-lg;
   }
 
   footer {
-    @apply flex items-center justify-center;
-
     a {
-      @apply bg-black text-white rounded-full p-1 text-center w-full;
+      @apply flex items-center justify-center bg-black text-white rounded-full p-1 text-center w-full;
 
       span {
-        @apply inline-block text-lg leading-loose align-bottom mx-1;
+        @apply inline-block text-lg font-medium mx-1;
       }
     }
   }
