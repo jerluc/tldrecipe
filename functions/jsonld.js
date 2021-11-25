@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import { JSDOM } from "jsdom";
 import jsonld from "jsonld";
 
 export async function normalize(j) {
@@ -18,10 +17,7 @@ export async function normalize(j) {
   return doNormalize(c);
 }
 
-export async function extractAll(url) {
-  const html = await fetch(url).then((r) => r.text());
-  const dom = new JSDOM(html);
-  const doc = dom.window.document;
+export async function extractAll(doc) {
   const jsonLds = Array.from(
     doc.querySelectorAll("script[type='application/ld+json']")
   ).flatMap((el) => {
