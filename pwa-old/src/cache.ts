@@ -12,7 +12,7 @@ interface CacheItem {
 
 class Cache {
   private version: number;
-  private store: LocalForage;
+  private store: any;
 
   constructor(version: number) {
     this.store = localForage.createInstance({

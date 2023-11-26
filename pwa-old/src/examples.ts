@@ -1,15 +1,14 @@
-import { Recipe } from "schema-dts";
-
-export const EXAMPLE_RECIPE: Recipe = {
-  "@type": "Recipe",
+export const EXAMPLE_RECIPE = {
+  "@context": "http://schema.org/",
+  type: "Recipe",
   aggregateRating: {
-    "@type": "AggregateRating",
+    type: "AggregateRating",
     bestRating: "5",
     ratingCount: "1413",
     ratingValue: "4.5",
     worstRating: "1",
   },
-  author: { "@type": "Person", name: "Betty Crocker Kitchens" },
+  author: { type: "Person", name: "Betty Crocker Kitchens" },
   dateCreated: "01/01/2004",
   description:
     "We named this recipe “<b>Ultimate Chocolate Chip Cookies,</b>” because it’s got everything a cookie connoisseur could possibly ask for. With a texture that is slightly crispy on the outside and chewy on the inside, it’s a favorite <b>chocolate chip cookie recipe</b> that’s been top-rated by hundreds of satisfied home cooks.",
@@ -18,7 +17,7 @@ export const EXAMPLE_RECIPE: Recipe = {
   keywords: "ultimate chocolate chip cookies",
   name: "Ultimate Chocolate Chip Cookies",
   nutrition: {
-    "@type": "NutritionInformation",
+    type: "NutritionInformation",
     calories: "120 ",
     carbohydrateContent: "16 g",
     cholesterolContent: "15 mg",
@@ -47,31 +46,31 @@ export const EXAMPLE_RECIPE: Recipe = {
   ],
   recipeInstructions: [
     {
-      "@type": "HowToStep",
+      type: "HowToStep",
       image:
         "https://images-gmi-pmc.edge-generalmills.com/ae7633e8-25b4-403b-a86c-03b7300982dc.jpg",
       text: "Heat oven to 375°F. In small bowl, mix flour, baking soda and salt; set aside.",
     },
     {
-      "@type": "HowToStep",
+      type: "HowToStep",
       image:
         "https://images-gmi-pmc.edge-generalmills.com/2a409724-c7a1-4110-8048-8f592ed65a3b.jpg",
       text: "In large bowl, beat softened butter and sugars with electric mixer on medium speed, or mix with spoon about 1 minute or until fluffy, scraping side of bowl occasionally.",
     },
     {
-      "@type": "HowToStep",
+      type: "HowToStep",
       image:
         "https://images-gmi-pmc.edge-generalmills.com/466a6689-1547-4148-98ef-44a2b8c318c8.jpg",
       text: "Beat in egg and vanilla until smooth. Stir in flour mixture just until blended (dough will be stiff). Stir in chocolate chips and nuts.",
     },
     {
-      "@type": "HowToStep",
+      type: "HowToStep",
       image:
         "https://images-gmi-pmc.edge-generalmills.com/205de745-2319-4cf6-8322-e6fb7d2293a7.jpg",
       text: "Onto ungreased cookie sheets, drop dough by rounded tablespoonfuls 2 inches apart. ",
     },
     {
-      "@type": "HowToStep",
+      type: "HowToStep",
       image:
         "https://images-gmi-pmc.edge-generalmills.com/cbe8b51a-c3c1-4dcf-8d79-76f98565d3e0.jpg",
       text: "Bake 8 to 10 minutes or until light brown (centers will be soft). Cool 2 minutes; remove from cookie sheet to cooling rack. Cool completely, about 30 minutes. Store covered in airtight container.",
@@ -80,7 +79,7 @@ export const EXAMPLE_RECIPE: Recipe = {
   recipeYield: "48",
   totalTime: "PT1H30M",
   video: {
-    "@type": "VideoObject",
+    type: "VideoObject",
     contentUrl:
       "https://www.bettycrocker.com/videos/ultimate-chocolate-chip-cookies",
     description:

@@ -1,0 +1,75 @@
+<svg
+  style="enable-background: new 0 0 512 512"
+  version="1.1"
+  viewBox="0 0 512 512"
+  xml:space="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g transform="translate(70.123 -64.514)">
+    <path
+      d="m414.89 296.34c-8.5663-12.741-18.063 1.9701-25.078 8.0993-27.123 26.166-54.246 52.331-81.369 78.497-91.017 1.8825-182.03 3.7649-273.05 5.6474-26.251 3.02-17.602 35.711-12.165 52.842 11.71 35.875 49.419 54.391 84.595 58.873 34.917 4.8467 70.272 1.9319 105.37 1.1823 36.334-1.9047 77.28-14.807 94.87-49.482 8.7651-15.51 10.551-34.046 12.826-50.91 31.741-31.085 64.424-61.282 95.529-92.965 3.189-3.5984 2.0124-8.8979-1.5229-11.784z"
+      style="
+        color-rendering: auto;
+        dominant-baseline: auto;
+        enable-background: accumulate;
+        font-feature-settings: normal;
+        font-variant-alternates: normal;
+        font-variant-caps: normal;
+        font-variant-east-asian: normal;
+        font-variant-ligatures: normal;
+        font-variant-numeric: normal;
+        font-variant-position: normal;
+        font-variation-settings: normal;
+        image-rendering: auto;
+        inline-size: 0;
+        isolation: auto;
+        mix-blend-mode: normal;
+        shape-margin: 0;
+        shape-padding: 0;
+        shape-rendering: auto;
+        solid-color: #000000;
+        stop-color: #000000;
+        text-decoration-color: #000000;
+        text-decoration-line: none;
+        text-decoration-style: solid;
+        text-indent: 0;
+        text-orientation: mixed;
+        text-transform: none;
+        white-space: normal;
+      "
+    />
+
+    <path
+      d="m196.73 223.45c14.826-28.503 29.653-57.006 44.479-85.509-38.186 32.013-76.371 64.026-114.56 96.038 16.121 11.91 32.243 23.819 48.364 35.729-14.826 28.503-29.653 57.006-44.479 85.509 38.186-32.013 76.371-64.026 114.56-96.038-16.121-11.91-32.243-23.819-48.364-35.729z"
+      style="
+        color-rendering: auto;
+        dominant-baseline: auto;
+        enable-background: accumulate;
+        font-feature-settings: normal;
+        font-variant-alternates: normal;
+        font-variant-caps: normal;
+        font-variant-east-asian: normal;
+        font-variant-ligatures: normal;
+        font-variant-numeric: normal;
+        font-variant-position: normal;
+        font-variation-settings: normal;
+        image-rendering: auto;
+        inline-size: 0;
+        isolation: auto;
+        mix-blend-mode: normal;
+        shape-margin: 0;
+        shape-padding: 0;
+        shape-rendering: auto;
+        solid-color: #000000;
+        stop-color: #000000;
+        text-decoration-color: #000000;
+        text-decoration-line: none;
+        text-decoration-style: solid;
+        text-indent: 0;
+        text-orientation: mixed;
+        text-transform: none;
+        white-space: normal;
+      "
+    />
+  </g>
+</svg>

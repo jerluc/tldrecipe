@@ -1,117 +1,9 @@
-<script setup lang="ts">
-import { computed, ref, watch } from "vue";
-
-import { Recipe } from "schema-dts";
-
-// import { } from "@vueuse/core";
-import { Head } from "@vueuse/head";
-
-import { CACHE } from "./cache";
-// import Icon from "./assets/icon.svg";
-
-const loading = ref(false);
-const recipeUrl = ref<string | undefined>();
-const recipe = ref<Recipe | undefined>();
-
-const image = computed(() => {
-  if (!recipe.value) return null;
-
-  let image = recipe.value.image;
-  if (Array.isArray(image)) {
-    image = image[0];
-  }
-  if (typeof image === "object") {
-    image = image.url;
-  }
-
-  // TODO: Meh
-  return `${image}`;
-});
-
-const instructions = computed(() => {
-  if (!recipe.value) {
-    return null;
-  }
-
-  const { recipeInstructions } = recipe.value;
-
-  if (Array.isArray(recipeInstructions)) {
-    return recipeInstructions.filter((s) => !!s.text).map((s) => s.text);
-  }
-  return [recipeInstructions];
-});
-
-/**
-  watch: {
-    "$route.query": {
-      handler: async function ({ url, text }) {
-        recipeUrl = url || text;
-        if (recipeUrl) {
-          await loadRecipe();
-        } else {
-          recipe = null;
-        }
-      },
-    },
-  },
-*/
-
-type mapping = { [key: string]: any };
-
-function stringOrPath(
-  maybeString: string | mapping,
-  jsonPath: string,
-): string | null {
-  if (typeof maybeString === "string") {
-    return maybeString;
-  }
-  const pathParts = jsonPath.split(".");
-  const obj = maybeString;
-  let v: string | null = null;
-  for (let k of pathParts) {
-    v = obj[k];
-    if (!v) {
-      return null;
-    }
-  }
-  return v;
-}
-
-async function loadRecipe() {
-  loading.value = true;
-  try {
-    const cachedRecipe = await CACHE.getRecipe(recipeUrl.value);
-    if (cachedRecipe) {
-      recipe.value = cachedRecipe;
-      return;
-    }
-    const { recipe: newRecipe } = await fetch(
-      `https://us-west1-tldrecipe.cloudfunctions.net/fetchRecipe?url=${encodeURIComponent(
-        recipeUrl.value,
-      )}`,
-      { method: "POST" },
-    ).then((r) => r.json());
-    if (newRecipe) {
-      recipe.value = newRecipe as Recipe;
-      await CACHE.cacheRecipe(recipeUrl.value, recipe);
-    }
-  } finally {
-    loading.value = false;
-  }
-}
-
-async function goToRecipe() {
-  // $router.push({ query: { url: recipeUrl } });
-  await loadRecipe();
-}
-</script>
-
 <template>
   <main>
     <header>
       <h1 id="logo">
         <a href="/">
-          <!--<Icon />-->
+          <icon />
         </a>
         <a href="/">
           <span>tl;drecipe</span>
@@ -161,7 +53,7 @@ async function goToRecipe() {
         </h2>
       </div>
       <div class="image">
-        <img :src="image" :alt="recipe.name" v-if="image" />
+        <img :src="image" :alt="recipe.name" />
       </div>
       <div class="meta">
         <h3>Ingredients</h3>
@@ -193,7 +85,111 @@ async function goToRecipe() {
   </main>
 </template>
 
-<style scoped lang="scss">
+<script lang="ts">
+import { defineComponent } from "vue";
+import { Recipe } from "schema-dts";
+import { Head } from "@vueuse/head";
+
+import { CACHE } from "./cache";
+import Icon from "@/assets/icon.svg?inline";
+
+export default defineComponent({
+  name: "App",
+  components: {
+    Head,
+    Icon,
+  },
+  data() {
+    return {
+      loading: false,
+      recipeUrl: null,
+      recipe: null as Recipe,
+    };
+  },
+  computed: {
+    image(): string | null {
+      if (!this.recipe) return null;
+      let image = this.recipe.image;
+      if (Array.isArray(image)) {
+        image = image[0];
+      }
+      if (typeof image === "object") {
+        image = image.url;
+      }
+      return image;
+    },
+    instructions(): string[] | null {
+      if (!this.recipe) {
+        return null;
+      }
+      if (Array.isArray(this.recipe.recipeInstructions)) {
+        return this.recipe.recipeInstructions
+          .filter((s) => !!s.text)
+          .map((s) => s.text);
+      }
+      return [this.recipe.recipeInstructions];
+    },
+  },
+  watch: {
+    "$route.query": {
+      handler: async function ({ url, text }) {
+        this.recipeUrl = url || text;
+        if (this.recipeUrl) {
+          await this.loadRecipe();
+        } else {
+          this.recipe = null;
+        }
+      },
+    },
+  },
+  methods: {
+    stringOrPath(
+      maybeString: string | unknown,
+      jsonPath: string
+    ): string | null {
+      if (typeof maybeString === "string") {
+        return maybeString;
+      }
+      const pathParts = jsonPath.split(".");
+      let obj = maybeString as unknown;
+      for (let k of pathParts) {
+        obj = obj[k];
+        if (!obj) {
+          return null;
+        }
+      }
+      return obj as string;
+    },
+    async loadRecipe(): Promise<void> {
+      this.loading = true;
+      try {
+        const cachedRecipe = await CACHE.getRecipe(this.recipeUrl);
+        if (cachedRecipe) {
+          this.recipe = cachedRecipe;
+          return;
+        }
+        const { recipe } = await fetch(
+          `https://us-west1-tldrecipe.cloudfunctions.net/fetchRecipe?url=${encodeURIComponent(
+            this.recipeUrl
+          )}`,
+          { method: "POST" }
+        ).then((r) => r.json());
+        if (recipe) {
+          this.recipe = recipe as Recipe;
+          await CACHE.cacheRecipe(this.recipeUrl, recipe);
+        }
+      } finally {
+        this.loading = false;
+      }
+    },
+    async goToRecipe() {
+      this.$router.push({ query: { url: this.recipeUrl } });
+    },
+  },
+});
+</script>
+
+<style lang="postcss">
 html,
 body {
   @apply bg-gradient-to-br from-banana to-yellow-200 text-black min-h-full w-full;
@@ -226,8 +222,7 @@ main > div {
   }
 
   form {
-    @apply flex flex-nowrap items-center border-b-2 border-current mt-2 p-1 w-1/2;
-    /*xs:w-11/12;*/
+    @apply flex flex-nowrap items-center border-b-2 border-current mt-2 p-1 w-1/2 xs:w-11/12;
 
     input[type="text"] {
       @apply flex-grow placeholder-current outline-none bg-transparent p-2;

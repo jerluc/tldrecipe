@@ -4,7 +4,7 @@ ADD . /app
 
 WORKDIR /app
 
-RUN npm install & npm run build
+RUN yarn && yarn build
 
 FROM nginx:latest
 
