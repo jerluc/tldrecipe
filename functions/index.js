@@ -12,9 +12,9 @@ app.use(compression());
 
 app.use(
   cors({
-    origin: ["https://tldrecipe.app", "http://localhost:8080"],
+    origin: ["https://tldrecipe.app", "http://localhost:5173"],
     methods: ["POST"],
-  })
+  }),
 );
 
 app.post("*", async function (req, res) {
