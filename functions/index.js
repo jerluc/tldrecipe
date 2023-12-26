@@ -12,7 +12,12 @@ app.use(compression());
 
 app.use(
   cors({
-    origin: ["https://tldrecipe.app", "http://localhost:5173"],
+    origin: [
+      "https://tldrecipe.app",
+      "http://localhost:5173",
+      "http://jerluc-laptop.local:5173",
+      "http://jerluc-laptop:5173",
+    ],
     methods: ["POST"],
   }),
 );
