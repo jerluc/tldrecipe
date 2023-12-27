@@ -9,8 +9,8 @@ export default {
         "burnt-banana": "#40403a",
       },
       fontFamily: {
-        display: ["Barlow Semi Condensed", "sans-serif"],
-        body: ["Barlow Semi Condensed", "Work Sans", "sans-serif"],
+        display: ["Moirai One", "Rubik Moonrocks"],
+        body: ["Work Sans", "sans-serif"],
       },
     },
   },

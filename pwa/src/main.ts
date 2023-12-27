@@ -1,10 +1,34 @@
 import { createApp } from "vue";
-import { createHead } from "@vueuse/head";
+import { createHead } from "@unhead/vue";
+import { createRouter, createWebHistory } from "vue-router";
+
 import "./style.css";
 import App from "./App.vue";
+import Home from "./pages/home.vue";
+import History from "./pages/history.vue";
+import Recipe from "./pages/recipe.vue";
 
 const head = createHead();
 
-createApp(App).use(head).mount("#app");
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      name: "home",
+      path: "/",
+      component: Home,
+    },
+    {
+      name: "history",
+      path: "/history",
+      component: History,
+    },
+    {
+      name: "recipe",
+      path: "/recipe",
+      component: Recipe,
+    },
+  ],
+});
 
-// import "./registerServiceWorker";
+createApp(App).use(head).use(router).mount("#app");

@@ -1,50 +1,44 @@
+import { computed, unref, MaybeRefOrGetter } from "vue";
+import { createGlobalState, useStorage } from "@vueuse/core";
 import { Recipe } from "schema-dts";
-import { addDays, formatISO, isPast } from "date-fns";
+import { formatISO } from "date-fns";
 
-import localForage from "localforage";
-
-interface CacheItem {
+export type CacheItem = {
+  url: string;
+  name: string;
   recipe: Recipe;
   created: string;
   dtl: number;
   version: number;
-}
+};
 
-class Cache {
-  private version: number;
-  private store: LocalForage;
+const _CACHE_VERSION = 1;
+const _CACHE_KEY = "tldrecipe";
 
-  constructor(version: number) {
-    this.store = localForage.createInstance({
-      name: "tldrecipe",
-      driver: localForage.INDEXEDDB,
+export const useCache = createGlobalState(function () {
+  const cache = useStorage<CacheItem[]>(_CACHE_KEY, []);
+
+  function getRecipe(maybeUrl: MaybeRefOrGetter<string | null>) {
+    return computed(() => {
+      const url = unref(maybeUrl);
+      if (!url) return null;
+
+      const item = cache.value.find((item) => item.url === url);
+      return item ? item.recipe : null;
     });
-    this.version = version;
   }
 
-  async getRecipe(key: string): Promise<Recipe | null> {
-    const rawCacheItem = await this.store.getItem(key);
-    if (rawCacheItem) {
-      const cacheItem = JSON.parse(rawCacheItem as string) as CacheItem;
-      const created = new Date(cacheItem.created);
-      const expiration = addDays(created, cacheItem.dtl);
-      if (!isPast(expiration) && cacheItem.version === this.version) {
-        return cacheItem.recipe;
-      }
-    }
-    return null;
-  }
-
-  async cacheRecipe(key: string, recipe: Recipe): Promise<Recipe> {
-    const cacheItem = {
+  function cacheRecipe(url: string, recipe: Recipe) {
+    const cacheItem: CacheItem = {
+      url,
+      name: recipe.name!.toString(),
       recipe,
       created: formatISO(new Date()),
       dtl: 1,
-      version: this.version,
+      version: _CACHE_VERSION,
     };
-    await this.store.setItem(key, JSON.stringify(cacheItem));
-    return recipe;
+    cache.value.push(cacheItem);
   }
-}
 
-export const CACHE = new Cache(0);
+  return { cache, getRecipe, cacheRecipe };
+});
