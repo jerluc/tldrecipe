@@ -23,6 +23,12 @@ app.use(
   }),
 );
 
+function isRecipe(schema_type) {
+  return Array.isArray(schema_type)
+    ? schema_type.filter((t) => t === "Recipe").length > 0
+    : schema_type === "Recipe";
+}
+
 app.post("*", async function (req, res) {
   const url = req.query.url;
   const doc = await dom.parse(url);
@@ -30,7 +36,7 @@ app.post("*", async function (req, res) {
     meta.extractAll(doc),
     jsonld.extractAll(doc),
   ]);
-  const recipe = jsonLds.find((j) => j["type"] === "Recipe");
+  const recipe = jsonLds.find((j) => isRecipe(j["type"]));
   res.send({ meta: metas, recipe });
 });
 
