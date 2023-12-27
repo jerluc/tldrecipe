@@ -14,6 +14,7 @@ app.use(
   cors({
     origin: [
       "https://tldrecipe.app",
+      "https://jerluc.ngrok.io",
       "http://localhost:5173",
       "http://jerluc-laptop.local:5173",
       "http://jerluc-laptop:5173",
