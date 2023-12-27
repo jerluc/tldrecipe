@@ -1,4 +1,4 @@
-import { computed, unref, MaybeRefOrGetter } from "vue";
+import { computed, toValue, MaybeRefOrGetter } from "vue";
 import { createGlobalState, useStorage } from "@vueuse/core";
 import { Recipe } from "schema-dts";
 import { formatISO } from "date-fns";
@@ -12,15 +12,15 @@ export type CacheItem = {
   version: number;
 };
 
-const _CACHE_VERSION = 1;
+const _CACHE_VERSION = 2;
 const _CACHE_KEY = "tldrecipe";
 
 export const useCache = createGlobalState(function () {
-  const cache = useStorage<CacheItem[]>(_CACHE_KEY, []);
+  const cache = useStorage<CacheItem[]>(`${_CACHE_KEY}_${_CACHE_VERSION}`, []);
 
   function getRecipe(maybeUrl: MaybeRefOrGetter<string | null>) {
     return computed(() => {
-      const url = unref(maybeUrl);
+      const url = toValue(maybeUrl);
       if (!url) return null;
 
       const item = cache.value.find((item) => item.url === url);

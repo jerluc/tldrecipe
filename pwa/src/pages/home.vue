@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useHead } from "@unhead/vue";
 import { UseTimeAgo } from "@vueuse/components";
@@ -32,25 +32,38 @@ const icons = [
   "skillet",
 ];
 
-function getRandomIcon() {
-  return icons[Math.floor(Math.random() * icons.length)];
+function getRandomIconIndex() {
+  return Math.floor(Math.random() * icons.length);
 }
 
-const randIcon = ref(getRandomIcon());
+const randIconIndex = ref(getRandomIconIndex());
+const randIcon = computed(() => icons[randIconIndex.value]);
 
-useIntervalFn(function () {
-  randIcon.value = getRandomIcon();
-}, 1000);
+const { resume: resumeAnim, pause: pauseAnim } = useIntervalFn(
+  function () {
+    randIconIndex.value = (randIconIndex.value + 1) % icons.length;
+  },
+  1000,
+  { immediate: false },
+);
+
+watch(recipeUrl, (newRecipeUrl) => {
+  if (!!newRecipeUrl) {
+    resumeAnim();
+  } else {
+    pauseAnim();
+  }
+});
 </script>
 
 <template>
   <div class="h-full flex flex-col items-center justify-center">
     <form
-      class="w-full sm:w-1/2 flex items-center flex-nowrap border-b border-current p-1"
+      class="w-full sm:w-1/2 flex items-center flex-nowrap border-b border-current pb-1"
       @submit.prevent="goToRecipe"
     >
       <input
-        class="grow placeholder-current font-bold text-center text-2xl outline-none bg-transparent p-2"
+        class="grow w-full placeholder-current font-bold text-center text-2xl outline-none bg-transparent m-2"
         type="text"
         placeholder="Paste recipe link here"
         v-model="recipeUrl"

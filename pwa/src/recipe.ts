@@ -5,8 +5,6 @@ import { useShare } from "@vueuse/core";
 
 import { useCache } from "./cache";
 
-type mapping = { [key: string]: any };
-
 export function useRecipe(recipeUrl: MaybeRefOrGetter<string>) {
   const loading = ref(false);
   const { getRecipe, cacheRecipe } = useCache();

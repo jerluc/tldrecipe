@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { Recipe } from "schema-dts";
-
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
 import { useWakeLock } from "@vueuse/core";
@@ -33,7 +31,7 @@ useHead({
 
 // TODO: This thing sucks ass
 function stringOrPath(
-  maybeString: string | mapping,
+  maybeString: string | Record<string, any>,
   jsonPath: string,
 ): string | null {
   if (!maybeString) {
@@ -94,7 +92,6 @@ function stringOrPath(
         <span class="material-symbols-rounded">menu_book</span>
         <span>Read the whole recipe</span>
       </a>
-      <button @click="doShare" v-if="canShare">Share</button>
     </footer>
   </div>
   <div v-else>

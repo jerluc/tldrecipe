@@ -15,9 +15,9 @@ useHead({
   <div class="flex flex-col h-dvh">
     <header class="shrink p-4 flex items-center justify-between">
       <span>&nbsp;</span>
-      <a class="font-display text-5xl hover:text-white" href="/">
+      <RouterLink class="font-display text-5xl hover:text-white" to="/">
         tl;drecipe
-      </a>
+      </RouterLink>
       <RouterLink
         class="material-symbols-rounded"
         :to="{ name: 'history' }"
@@ -25,29 +25,24 @@ useHead({
       >
         history
       </RouterLink>
+      <span v-else>&nbsp;</span>
     </header>
     <main class="grow p-4">
       <RouterView />
     </main>
-    <footer class="shrink p-4 flex items-center justify-center">
-      <a href="https://ko-fi.com/L3L21RSVP" target="_blank">
-        <img
-          height="36"
-          style="border: 0px; height: 36px"
-          src="https://storage.ko-fi.com/cdn/kofi3.png?v=3"
-          border="0"
-          alt="Buy Me a Coffee at ko-fi.com"
-        />
+    <footer class="shrink p-4 flex items-center justify-end mt-12">
+      <a href="mailto:support@tldrecipe.app">
+        <span class="material-symbols-rounded">info</span>
+      </a>
+      <a href="mailto:support@tldrecipe.app">
+        <span class="material-symbols-rounded">help</span>
+      </a>
+      <a href="mailto:support@tldrecipe.app">
+        <span class="material-symbols-rounded">error</span>
+      </a>
+      <a href="https://ko-fi.com/jerluc" target="_blank">
+        <span class="material-symbols-rounded">monetization_on</span>
       </a>
     </footer>
-    <a
-      class="fixed bottom-2 right-2 bg-black text-banana rounded-xl text-xs p-2 flex items-center"
-      href="https://ko-fi.com/L3L21RSVP"
-      target="_blank"
-      v-if="false"
-    >
-      Buy me a&nbsp;
-      <span class="material-symbols-rounded text-sm">coffee</span>
-    </a>
   </div>
 </template>
