@@ -7,7 +7,10 @@ useHead({ title: "Frequently asked questions" });
 <template>
   <div class="w-full md:w-2/3 max-w-2xl m-auto content">
     <h2 class="text-4xl font-bold">Frequently asked questions</h2>
-    <h3 class="text-2xl">What does the name mean?</h3>
+    <h3 class="text-2xl">
+      <span class="icon">chevron_right</span>
+      What does the name mean?
+    </h3>
     <p>
       The name "tl;drecipe" comes from combining the Internet slang
       <a href="https://en.wikipedia.org/wiki/TL;DR" target="_blank"
@@ -15,7 +18,10 @@ useHead({ title: "Frequently asked questions" });
       >
       with the word "recipe".
     </p>
-    <h3 class="text-2xl">Why does this website exist?</h3>
+    <h3 class="text-2xl">
+      <span class="icon">chevron_right</span>
+      Why does this website exist?
+    </h3>
     <p>
       I got pretty sick and tired of trying to bake the "best chocolate chip
       cookie recipe ever" only to encounter about a 6:3:1 ratio of fluff content
@@ -57,7 +63,10 @@ useHead({ title: "Frequently asked questions" });
         network-level ad blocking!
       </figcaption>
     </figure>
-    <h3 class="text-2xl">So what's the catch?</h3>
+    <h3 class="text-2xl">
+      <span class="icon">chevron_right</span>
+      So what's the catch?
+    </h3>
     <p>
       That's the thing: there is no catch. This website doesn't go sending
       everything you do to a 3rd party advertiser or advertising network. It
@@ -71,8 +80,10 @@ useHead({ title: "Frequently asked questions" });
       >
       if you prefer).
     </p>
-    <p></p>
-    <h3 class="text-2xl">How can we support you?</h3>
+    <h3 class="text-2xl">
+      <span class="icon">chevron_right</span>
+      How can we support you?
+    </h3>
     <p>
       As a solo developer of this website, I appreciate any support I can get.
       Aside from the time it takes to maintain the website and servers, running
@@ -95,7 +106,10 @@ useHead({ title: "Frequently asked questions" });
         />
       </a>
     </p>
-    <h3 class="text-2xl">Is tl;drecipe open source?</h3>
+    <h3 class="text-2xl">
+      <span class="icon">chevron_right</span>
+      Is tl;drecipe open source?
+    </h3>
     <p>
       Not yet! But I am actively working on making it possible to open up for
       contributors.
@@ -108,9 +122,12 @@ useHead({ title: "Frequently asked questions" });
   @apply mb-8;
 }
 
-h3::before {
-  @apply pr-2;
-  content: "⏵";
+h3 {
+  @apply font-medium;
+
+  .icon {
+    @apply align-middle text-4xl -mx-2;
+  }
 }
 
 a {
