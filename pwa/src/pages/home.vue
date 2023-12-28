@@ -58,7 +58,7 @@ watch(recipeUrl, (newRecipeUrl) => {
 <template>
   <div class="h-full flex flex-col items-center justify-center">
     <form
-      class="w-full sm:w-1/2 flex items-center flex-nowrap border-b border-current pb-1"
+      class="w-full sm:w-1/2 flex items-center flex-nowrap border-b-4 border-dashed border-current pb-1"
       @submit.prevent="goToRecipe"
     >
       <input
@@ -68,17 +68,18 @@ watch(recipeUrl, (newRecipeUrl) => {
         v-model="recipeUrl"
       />
       <button
-        class="shrink bg-salmon p-2 rounded-xl opacity-50 flex items-center"
+        class="shrink bg-salmon hover:bg-white p-2 rounded-xl opacity-50 flex items-center"
         :class="recipeUrl && 'animated'"
         v-if="recipeUrl"
       >
-        Get&nbsp;<span class="material-symbols-rounded">{{ randIcon }}</span
+        Get&nbsp;<span class="icon text-2xl">{{ randIcon }}</span
         >in'
       </button>
     </form>
-    <h2 class="italic m-4 text-center">
-      <span class="line-through">Endure life stories</span>,
-      <span class="line-through">click on ads</span>, <span>read recipes</span>.
+    <h2 class="italic m-4">
+      Read
+      <span class="line-through">life stories</span>
+      recipes
     </h2>
   </div>
 </template>

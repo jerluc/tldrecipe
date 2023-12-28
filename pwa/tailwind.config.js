@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: "media",
@@ -6,6 +7,7 @@ export default {
     extend: {
       colors: {
         banana: "#fbbf24",
+        mint: "#b0ffe2",
         salmon: "#ff8B59",
       },
       fontFamily: {

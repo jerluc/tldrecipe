@@ -97,7 +97,7 @@ function stringOrPath(
     </div>
     <footer>
       <a :href="recipeUrl" target="_blank" rel="noopener noreferrer">
-        <span class="material-symbols-rounded">menu_book</span>
+        <span class="icon">menu_book</span>
         <span>Read the whole recipe</span>
       </a>
     </footer>
