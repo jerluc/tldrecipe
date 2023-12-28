@@ -20,7 +20,7 @@ useHead({
         <img class="h-12" src="/icon.svg" alt="tl;drecipe icon" />
       </RouterLink>
       <RouterLink
-        class="font-display text-5xl h-[60px] hover:text-white"
+        class="font-display font-bold text-5xl h-[60px] hover:text-white"
         to="/"
       >
         tl;drecipe
