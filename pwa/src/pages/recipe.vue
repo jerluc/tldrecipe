@@ -17,8 +17,15 @@ const recipeUrl = computed(() => {
   const recipeUrlParam = route.query.url;
   if (Array.isArray(recipeUrlParam)) {
     return recipeUrlParam[0]!.toString();
+  } else if (recipeUrlParam) {
+    return recipeUrlParam.toString();
+  }
+
+  const recipeTextParam = route.query.text;
+  if (Array.isArray(recipeTextParam)) {
+    return recipeTextParam[0]!.toString();
   } else {
-    return recipeUrlParam!.toString();
+    return recipeTextParam!.toString();
   }
 });
 
