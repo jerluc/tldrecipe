@@ -16,10 +16,12 @@ useHead({
   <div class="recipes">
     <div :key="i" v-for="(item, i) in cache">
       <RouterLink :to="{ name: 'recipe', query: { url: item.url } }">
+        <!--
         <img
           class="w-16"
           :src="item.recipe.image.url || item.recipe.image[0]"
         />
+        -->
         <UseTimeAgo :time="item.created" v-slot="{ timeAgo }">
           {{ item.name }} ({{ timeAgo }})
         </UseTimeAgo>

@@ -1,12 +1,19 @@
 import { createApp } from "vue";
 import { createHead } from "@unhead/vue";
 import { createRouter, createWebHistory } from "vue-router";
+import { registerSW } from "virtual:pwa-register";
+
+// NOTE: This for some reason doesn't work without specifying latin-400
+import "@fontsource/moirai-one/latin-400.css";
+import "@fontsource-variable/material-symbols-rounded/opsz.css";
+import "@fontsource-variable/work-sans";
 
 import "./style.css";
 import App from "./App.vue";
-import Home from "./pages/home.vue";
-import History from "./pages/history.vue";
-import Recipe from "./pages/recipe.vue";
+
+registerSW({
+  onOfflineReady() {},
+});
 
 const head = createHead();
 
@@ -16,17 +23,22 @@ const router = createRouter({
     {
       name: "home",
       path: "/",
-      component: Home,
+      component: () => import("./pages/home.vue"),
+    },
+    {
+      name: "faq",
+      path: "/faq",
+      component: () => import("./pages/faq.vue"),
     },
     {
       name: "history",
       path: "/history",
-      component: History,
+      component: () => import("./pages/history.vue"),
     },
     {
       name: "recipe",
       path: "/recipe",
-      component: Recipe,
+      component: () => import("./pages/recipe.vue"),
     },
   ],
 });

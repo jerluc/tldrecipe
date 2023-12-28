@@ -1,9 +1,16 @@
-import { Recipe } from "schema-dts";
+import type { Recipe } from "schema-dts";
 
 import { computed, ref, watch, MaybeRefOrGetter, toValue } from "vue";
 import { useShare } from "@vueuse/core";
 
 import { useCache } from "./cache";
+
+function first<T>(things: T): T {
+  if (Array.isArray(things)) {
+    return things[0];
+  }
+  return things;
+}
 
 export function useRecipe(recipeUrl: MaybeRefOrGetter<string>) {
   const loading = ref(false);
@@ -21,16 +28,20 @@ export function useRecipe(recipeUrl: MaybeRefOrGetter<string>) {
   const image = computed(() => {
     if (!recipe.value) return null;
 
-    let image = recipe.value.image;
-    if (Array.isArray(image)) {
-      image = image[0];
+    if (!recipe.value.image) return null;
+
+    const image = first(recipe.value.image);
+
+    if (typeof image === "string") {
+      return image;
     }
-    if (typeof image === "object") {
-      image = image.url;
+
+    if ("url" in image && image.url) {
+      return image.url.toString();
     }
 
     // TODO: Meh
-    return `${image}`;
+    return image.toString();
   });
 
   const instructions = computed(() => {

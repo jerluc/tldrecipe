@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { RouterLink, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useHead } from "@unhead/vue";
-import { UseTimeAgo } from "@vueuse/components";
 import { useIntervalFn } from "@vueuse/core";
 
 useHead({
@@ -69,7 +68,7 @@ watch(recipeUrl, (newRecipeUrl) => {
         v-model="recipeUrl"
       />
       <button
-        class="shrink bg-black text-banana p-2 rounded-xl opacity-50 flex items-center"
+        class="shrink bg-salmon p-2 rounded-xl opacity-50 flex items-center"
         :class="recipeUrl && 'animated'"
         v-if="recipeUrl"
       >
@@ -78,7 +77,8 @@ watch(recipeUrl, (newRecipeUrl) => {
       </button>
     </form>
     <h2 class="italic m-4 text-center">
-      Read <span class="line-through">life stories</span> recipes
+      <span class="line-through">Endure life stories</span>,
+      <span class="line-through">click on ads</span>, <span>read recipes</span>.
     </h2>
   </div>
 </template>

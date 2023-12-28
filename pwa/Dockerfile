@@ -4,7 +4,7 @@ ADD . /app
 
 WORKDIR /app
 
-RUN npm install & npm run build
+RUN npm install && npm run build
 
 FROM nginx:latest
 

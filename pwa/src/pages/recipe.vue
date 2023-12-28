@@ -15,7 +15,6 @@ if (isSupported.value && !isActive.value) {
 const route = useRoute();
 const recipeUrl = computed(() => {
   const recipeUrlParam = route.query.url;
-
   if (Array.isArray(recipeUrlParam)) {
     return recipeUrlParam[0]!.toString();
   } else {
@@ -37,7 +36,6 @@ function stringOrPath(
   if (!maybeString) {
     return null;
   }
-
   if (typeof maybeString === "string") {
     return maybeString;
   }
@@ -56,7 +54,10 @@ function stringOrPath(
 
 <template>
   <div class="loading" v-if="loading">
-    <h2>Cooking up something good...</h2>
+    <h2 class="text-4xl">Cooking up something good...</h2>
+    <div class="mt-4 h-1 w-full md:w-1/4 bg-salmon/25 overflow-hidden">
+      <div class="progress w-full h-full bg-salmon left-right"></div>
+    </div>
   </div>
   <div class="recipe" v-else-if="recipe">
     <div class="header">
@@ -65,9 +66,9 @@ function stringOrPath(
       </h2>
     </div>
     <div class="image" v-if="image">
-      <img :src="image" :alt="recipe.name" />
+      <img :src="image" :alt="recipe.name ? recipe.name?.toString() : ''" />
     </div>
-    <div class="meta">
+    <div class="meta" v-if="recipe.recipeIngredient">
       <h3>Ingredients</h3>
       <ul>
         <li
@@ -77,7 +78,7 @@ function stringOrPath(
         />
       </ul>
     </div>
-    <div class="body">
+    <div class="body" v-if="instructions">
       <h3>Instructions</h3>
       <ol>
         <li
@@ -100,24 +101,31 @@ function stringOrPath(
 </template>
 
 <style scoped lang="scss">
-.loading {
-  @apply flex flex-col items-center justify-center h-screen;
+.progress {
+  animation: progress 1s infinite linear;
+}
 
-  .loader {
-    @apply animate-spin h-12 w-12 text-white text-burnt-banana;
-
-    circle {
-      @apply opacity-25;
-    }
-
-    path {
-      @apply opacity-75;
-    }
+.left-right {
+  transform-origin: 0% 50%;
+}
+@keyframes progress {
+  0% {
+    transform: translateX(0) scaleX(0);
+  }
+  40% {
+    transform: translateX(0) scaleX(0.4);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.5);
   }
 }
 
+.loading {
+  @apply flex flex-col items-center justify-center h-full w-full;
+}
+
 .recipe {
-  @apply w-full max-w-screen-sm mx-auto min-h-full;
+  @apply w-full max-w-screen-sm mx-auto;
 
   h2 {
     @apply font-bold text-4xl;

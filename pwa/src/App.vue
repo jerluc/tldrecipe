@@ -13,36 +13,35 @@ useHead({
 
 <template>
   <div class="flex flex-col h-dvh">
-    <header class="shrink p-4 flex items-center justify-between">
-      <span>&nbsp;</span>
-      <RouterLink class="font-display text-5xl hover:text-white" to="/">
+    <header
+      class="shrink p-4 grid grid-cols-3 items-center justify-items-center"
+    >
+      <RouterLink class="justify-self-start" to="/">
+        <img class="h-12" src="/icon.svg" alt="tl;drecipe icon" />
+      </RouterLink>
+      <RouterLink
+        class="font-display text-5xl h-[60px] hover:text-white"
+        to="/"
+      >
         tl;drecipe
       </RouterLink>
       <RouterLink
-        class="material-symbols-rounded"
+        class="material-symbols-rounded justify-self-end"
         :to="{ name: 'history' }"
         v-if="cache.length > 0"
       >
         history
       </RouterLink>
-      <span v-else>&nbsp;</span>
     </header>
     <main class="grow p-4">
       <RouterView />
     </main>
-    <footer class="shrink p-4 flex items-center justify-end mt-12">
-      <a href="mailto:support@tldrecipe.app">
-        <span class="material-symbols-rounded">info</span>
-      </a>
-      <a href="mailto:support@tldrecipe.app">
-        <span class="material-symbols-rounded">help</span>
-      </a>
-      <a href="mailto:support@tldrecipe.app">
-        <span class="material-symbols-rounded">error</span>
-      </a>
-      <a href="https://ko-fi.com/jerluc" target="_blank">
-        <span class="material-symbols-rounded">monetization_on</span>
-      </a>
-    </footer>
+    <RouterLink
+      :to="{ name: 'faq' }"
+      class="fixed bottom-2 right-2 bg-salmon hover:bg-white h-5 w-5 rounded-full flex items-center justify-center"
+      title="Frequently asked questions"
+    >
+      <span class="material-symbols-rounded">help</span>
+    </RouterLink>
   </div>
 </template>

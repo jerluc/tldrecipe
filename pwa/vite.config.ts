@@ -8,22 +8,66 @@ export default defineConfig({
   plugins: [
     vue(),
     Unfonts({
-      google: {
+      fontsource: {
         families: [
-          { name: "Moirai One" },
+          "Moirai One",
           {
             name: "Work Sans",
-            styles:
-              "ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300",
+            weights: [100, 200, 300, 400, 500, 600, 700],
+            styles: ["italic", "normal"],
           },
           {
             name: "Material Symbols Rounded",
-            styles: "opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
+            variable: true,
           },
         ],
       },
     }),
     VitePWA({
+      // Web Manifest
+      manifest: {
+        name: "tl;drecipe",
+        short_name: "tl;drecipe",
+        description: "Read recipes, not life stories",
+        theme_color: "#fbbf24",
+        background_color: "#fbbf24",
+        display: "standalone",
+        orientation: "any",
+        share_target: {
+          action: "/recipe",
+          method: "GET",
+          enctype: "application/x-www-form-urlencoded",
+          params: {
+            title: "title",
+            text: "text",
+            url: "url",
+          },
+        },
+        icons: [
+          {
+            src: "pwa-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
+          },
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "maskable-icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
+      // Service Worker
       registerType: "autoUpdate",
       devOptions: {
         enabled: true,
