@@ -72,6 +72,9 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,webp,woff,woff2}"],
+      },
     }),
   ],
 });
