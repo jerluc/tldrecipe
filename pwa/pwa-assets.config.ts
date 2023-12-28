@@ -9,9 +9,9 @@ export default defineConfig({
   },
   preset: {
     ...minimal2023Preset,
-    png: {
-      compressionLevel: 9,
-      quality: 85,
+    maskable: {
+      resizeOptions: { background: "#000000" },
+      sizes: [512],
     },
   },
   images: ["public/icon.svg"],
