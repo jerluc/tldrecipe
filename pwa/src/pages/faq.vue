@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useHead } from "@unhead/vue";
+import whyOhWhy from "../assets/images/why-oh-why.webp";
+import allTheAds from "../assets/images/all-the-ads.png";
 
 useHead({ title: "Frequently asked questions" });
 </script>
@@ -28,12 +30,7 @@ useHead({ title: "Frequently asked questions" });
       to ads to actual recipe.
     </p>
     <figure>
-      <img
-        width="1280"
-        height="800"
-        class="m-auto"
-        src="../assets/images/why-oh-why.webp"
-      />
+      <img width="1280" height="800" class="m-auto" :src="whyOhWhy" />
       <figcaption class="italic text-sm p-2">
         I wish I was kidding, but this is the actual experience of reading
         through a recipe on the web today.
@@ -52,12 +49,7 @@ useHead({ title: "Frequently asked questions" });
       because this is ridiculous:
     </p>
     <figure>
-      <img
-        width="300"
-        height="200"
-        class="m-auto"
-        src="../assets/images/all-the-ads.png"
-      />
+      <img width="300" height="200" class="m-auto" :src="allTheAds" />
       <figcaption class="italic text-sm p-2">
         Believe it or not, this would've been even worse if I wasn't using
         network-level ad blocking!
