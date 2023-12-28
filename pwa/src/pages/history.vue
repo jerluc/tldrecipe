@@ -5,6 +5,7 @@ import { UseTimeAgo } from "@vueuse/components";
 import { RouterLink } from "vue-router";
 
 import { useCache } from "../cache";
+import { getImage } from "../recipe";
 
 const { cache } = useCache();
 
@@ -34,8 +35,10 @@ function getDomain(url: string) {
       >
         <img
           class="object-cover h-24 w-24 mr-2"
-          :src="item.recipe.image.url || item.recipe.image[0]"
+          :src="getImage(item.recipe)"
+          v-if="getImage(item.recipe)"
         />
+        <span class="bg-mint/25 h-24 w-24 mr-2" v-else></span>
         <div class="grow p-2 flex flex-col truncate">
           <span class="font-bold truncate">{{ item.name }}</span>
           <span>{{ getDomain(item.url) }}</span>

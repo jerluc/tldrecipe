@@ -12,6 +12,25 @@ function first<T>(things: T): T {
   return things;
 }
 
+export function getImage(recipe: Recipe | null) {
+  if (!recipe) return undefined;
+
+  if (!recipe.image) return undefined;
+
+  const image = first(recipe.image);
+
+  if (typeof image === "string") {
+    return image;
+  }
+
+  if ("url" in image) {
+    return image.url?.toString();
+  }
+
+  // TODO: Meh
+  return image.toString();
+}
+
 export function useRecipe(recipeUrl: MaybeRefOrGetter<string>) {
   const loading = ref(false);
   const { getRecipe, cacheRecipe } = useCache();
@@ -25,24 +44,7 @@ export function useRecipe(recipeUrl: MaybeRefOrGetter<string>) {
     });
   }
 
-  const image = computed(() => {
-    if (!recipe.value) return null;
-
-    if (!recipe.value.image) return null;
-
-    const image = first(recipe.value.image);
-
-    if (typeof image === "string") {
-      return image;
-    }
-
-    if ("url" in image && image.url) {
-      return image.url.toString();
-    }
-
-    // TODO: Meh
-    return image.toString();
-  });
+  const image = computed(() => getImage(recipe.value));
 
   const instructions = computed(() => {
     if (!recipe.value) {
